@@ -1,0 +1,35 @@
+Seeing as our first perceptron method was unsatisfactory, we decided to implement a k-cross-validation model, and test it alongside the traditional train/validate/test paradigm. 
+Our k-cross-validation model is a perceptron with the same parameters as before (64, 32, relu, hidden bilayer, 1 neuron output layer sigmoid activation). We did, however, remove
+several features, namely destination ports, source ports, destination machines, and source machines. We do five tests of each architecture again, keeping an eye on the average 
+F1-Score, Recall, Precision, and Accuracy between the five iterations of train/validate/test, k-cross-validation test. The results are as follows. 
+
+Cross-validation F1-Score: 0.1839
+Cross-validation precision: 0.1163
+Cross-validation recall: 0.4440
+Cross-validation accuracy: 0.6034
+
+Final Test F1-Score: 0.2191
+Final Test Precision: 0.1433
+Final Test Recall: 0.4667
+Final Test Accuracy: 0.6667
+
+While we believed that our small dataset (1000 entries) would benefit from k-cross validation, it appears from five iterations that this is not the case. We ran this program many more
+times and saw that the k-cross split never once succeeded in outperforming the traditional train/validate/test split. This was unexpected, but we will keep this information in mind
+as we attempt the same parametric configuration with a different multi-layer perceptron structure. We will add another layer and significantly increase the number of parameters. 
+Each model will now be 128, 64, 32, 1, RELU for all hidden layers and sigmoid for the output neuron. 
+
+Cross-validation F1-Score: 0.1842
+Cross-validation precision: 0.1170
+Cross-validation recall: 0.4440
+Cross-validation accuracy: 0.6046
+
+Final Test F1-Score: 0.2191
+Final Test Precision: 0.1405
+Final Test Recall: 0.5067
+Final Test Accuracy: 0.6333
+
+Again, the traditional split beats the k-cross split, and increasing the number of parameters does not improve the accuracy of either models in any meaningful way. 
+
+We will save the traditional model since it is better. 
+
+
