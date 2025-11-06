@@ -1,0 +1,193 @@
+High-recall LSTM Recurrent Neural Network.
+
+Topics of discussion:
+Picking between simple_rnn configuration and LSTM.
+Shape of RNN, at one point having four layers. Now having three layers (plus the activation).
+
+1. Preparing RNN datasets with temporal splitting...
+Dataset shape: (1000, 5)
+Boolean features shape: (1000, 5)
+Labels distribution:
+0.0    900
+1.0    100
+Name: count, dtype: int64
+Training sequences: (690, 10, 10)
+Validation sequences: (140, 10, 10)
+Test sequences: (140, 10, 10)
+
+2. Calculating class weights...
+Class distribution: {np.float64(0.0): np.int64(621), np.float64(1.0): np.int64(69)}
+Class weights: {0: np.float64(0.5555555555555556), 1: np.float64(5.0)}
+
+3. Creating RNN model...
+2025-11-06 13:57:34.545381: E external/local_xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+
+Model Summary:
+Model: "sequential"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ lstm (LSTM)                          │ (None, 64)                  │          19,200 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ batch_normalization                  │ (None, 64)                  │             256 │
+│ (BatchNormalization)                 │                             │                 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dense (Dense)                        │ (None, 32)                  │           2,080 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout (Dropout)                    │ (None, 32)                  │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dense_1 (Dense)                      │ (None, 16)                  │             528 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout_1 (Dropout)                  │ (None, 16)                  │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dense_2 (Dense)                      │ (None, 1)                   │              17 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 22,081 (86.25 KB)
+ Trainable params: 21,953 (85.75 KB)
+ Non-trainable params: 128 (512.00 B)
+Total Parameters: 22,081
+
+
+
+
+=== RNN MODEL EVALUATION ===
+Accuracy:  0.6571
+Precision: 0.0976
+Recall:    0.2667
+F1-Score:  0.1429
+
+=== CLASSIFICATION REPORT ===
+              precision    recall  f1-score   support
+
+      Normal       0.89      0.70      0.79       125
+   Malicious       0.10      0.27      0.14        15
+
+    accuracy                           0.66       140
+   macro avg       0.49      0.49      0.46       140
+weighted avg       0.80      0.66      0.72       140
+
+
+=== CONFUSION MATRIX ===
+[[88 37]
+ [11  4]]
+
+6. Plotting training history...
+✓ Training history plot saved as 'rnn_training_history.png'
+
+7. Model saved as 'final_rnn_model.keras'
+Scaler saved as 'rnn_scaler.pkl'
+
+=== TRAINING COMPLETE ===
+Best Validation Loss: 0.5388
+Best Validation Accuracy: 0.8929
+Final Test F1-Score: 0.1429
+
+8. Testing model on 10 sequences from test set...
+Testing on 10 sequences from test set:
+------------------------------------------------------------
+Sequence 1:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.6959 | Raw output: 0.3041
+  Correct: ✓
+
+Sequence 2:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.7418 | Raw output: 0.2582
+  Correct: ✓
+
+Sequence 3:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.7157 | Raw output: 0.2843
+  Correct: ✓
+
+Sequence 4:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.6618 | Raw output: 0.3382
+  Correct: ✓
+
+Sequence 5:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.6686 | Raw output: 0.3314
+  Correct: ✓
+
+Sequence 6:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.5425 | Raw output: 0.4575
+  Correct: ✓
+
+Sequence 7:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.6582 | Raw output: 0.3418
+  Correct: ✓
+
+Sequence 8:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.5765 | Raw output: 0.4235
+  Correct: ✓
+
+Sequence 9:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.5606 | Raw output: 0.4394
+  Correct: ✓
+
+Sequence 10:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.7228 | Raw output: 0.2772
+  Correct: ✓
+
+Test Accuracy on 10 sequences: 1.0000 (10/10 correct)
+
+9. Demonstrating prediction function with new sequences...
+Testing predict_with_rnn function on 10 sequences:
+--------------------------------------------------
+Sequence 1:
+  Actual: 1.0 | Predicted: 0
+  Confidence: 0.6500 | Raw output: 0.3500
+  Correct: ✗
+
+Sequence 2:
+  Actual: 0.0 | Predicted: 1
+  Confidence: 0.7129 | Raw output: 0.7129
+  Correct: ✗
+
+Sequence 3:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.5151 | Raw output: 0.4849
+  Correct: ✓
+
+Sequence 4:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.5354 | Raw output: 0.4646
+  Correct: ✓
+
+Sequence 5:
+  Actual: 0.0 | Predicted: 1
+  Confidence: 0.5223 | Raw output: 0.5223
+  Correct: ✗
+
+Sequence 6:
+  Actual: 0.0 | Predicted: 1
+  Confidence: 0.5433 | Raw output: 0.5433
+  Correct: ✗
+
+Sequence 7:
+  Actual: 0.0 | Predicted: 1
+  Confidence: 0.5046 | Raw output: 0.5046
+  Correct: ✗
+
+Sequence 8:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.5039 | Raw output: 0.4961
+  Correct: ✓
+
+Sequence 9:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.6085 | Raw output: 0.3915
+  Correct: ✓
+
+Sequence 10:
+  Actual: 0.0 | Predicted: 0
+  Confidence: 0.7849 | Raw output: 0.2151
+  Correct: ✓
+
+Prediction Function Accuracy: 0.5000 (5/10 correct)
